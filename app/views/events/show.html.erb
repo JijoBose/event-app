@@ -10,5 +10,31 @@
   <%= @event.date %>
 </p>
 
+<strong>Attending:</strong>
+<div class="attending-users">
+  <%= render 'events/users_attending' %>
+</div>
+
 <%= link_to 'Edit', edit_event_path(@event) %> |
 <%= link_to 'Back', events_path %>
+
+
+<p>
+  <strong>Assign users</strong>
+  <% User.all.each do |usr| %>
+    <p>
+      <%= usr.id %> | <%= usr.email %>
+      <%= link_to 'Assign User', assign_user_event_path(user_id: usr.id), method: :post, :remote => true, :class => 'assign-user' %>
+    </p>
+  <% end %>
+</p>
+
+
+<script type="text/javascript">
+  $('.assign-user').bind('ajax:success', function(event, data, status, xhr) {
+    // $(this).closest('tr').fadeOut();
+    console.log(event)
+    console.log(data)
+    console.log(xhr)
+  });
+</script>

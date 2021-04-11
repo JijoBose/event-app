@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: %i[ show edit update destroy ]
+  before_action :set_event, only: %i[ show edit update destroy assign_user ]
 
   # GET /events or /events.json
   def index
@@ -8,6 +8,7 @@ class EventsController < ApplicationController
 
   # GET /events/1 or /events/1.json
   def show
+    render
   end
 
   # GET /events/new
@@ -17,6 +18,21 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
+    render
+  end
+
+  # POST /events/1/assign_user
+  def assign_user
+    user = User.find_by_id(params[:user_id])
+    @event.users << user
+    respond_to do |format|
+      format.js
+    end
+    # return render partial: 'users_attending'
+  end
+
+  def remove_user
+    EventsUser.where(event_id: @event.id, user_id: params[:user_id]).first.destroy
   end
 
   # POST /events or /events.json
