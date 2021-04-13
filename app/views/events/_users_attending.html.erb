@@ -1,4 +1,4 @@
 <% users.each do |usr| %>
-  <p><%= usr.email %></p>
-  <%= link_to 'UnAssign User', remove_user_event_path(user_id: usr.id), method: :post, :remote => true, :class => 'unassign-user' %>
+  <p><%= usr.email %> <%= link_to 'remove', remove_user_event_path(user_id: usr.id), method: :post, remote: true, class: 'unassign-user' %>
+  </p>
 <% end %>

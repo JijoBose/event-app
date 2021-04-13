@@ -24,6 +24,7 @@ class EventsController < ApplicationController
   # POST /events/1/assign_user
   def assign_user
     user = User.find_by_id(params[:user_id])
+    return redirect_to @event, notice: "User already exist" if @event.users.exists?(user.id)
     @event.users << user
     respond_to do |format|
       format.js
