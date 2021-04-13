@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :users
+  devise_for :users, controllers: {
+    sessions: 'users/sessions'
+  }
   resources :events do
     post :assign_user, on: :member
     post :remove_user, on: :member
