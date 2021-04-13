@@ -11,8 +11,9 @@
   </head>
 
   <body>
-    <div class="container">
+    <%= render partial: "layouts/header" %>
+    <main class="container">
       <%= yield %>
-    </div>
+    </main>
   </body>
 </html>
