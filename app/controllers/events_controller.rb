@@ -28,12 +28,14 @@ class EventsController < ApplicationController
     respond_to do |format|
       format.js
     end
-    # return render partial: 'users_attending'
   end
 
   def remove_user
     user = User.find_by_id(params[:user_id])
     @event.users.delete(user)
+    respond_to do |format|
+      format.js
+    end
   end
 
   # POST /events or /events.json

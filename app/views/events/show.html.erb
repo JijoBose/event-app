@@ -12,7 +12,7 @@
 
 <strong>Attending:</strong>
 <div class="attending-users">
-  <%= render 'events/users_attending' %>
+  <%= render partial: 'users_attending', locals: {users: @event.users}  %>
 </div>
 
 <%= link_to 'Edit', edit_event_path(@event) %> |

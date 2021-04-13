@@ -1,13 +1,4 @@
-<% @event.users.each do |usr| %>
+<% users.each do |usr| %>
   <p><%= usr.email %></p>
   <%= link_to 'UnAssign User', remove_user_event_path(user_id: usr.id), method: :post, :remote => true, :class => 'unassign-user' %>
 <% end %>
-
-<script type="text/javascript">
-  $('.unassign-user').bind('ajax:success', function(event, data, status, xhr) {
-    // $(this).closest('tr').fadeOut();
-    console.log(event)
-    console.log(data)
-    console.log(xhr)
-  });
-</script>
