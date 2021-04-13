@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   before_action :set_event, only: %i[ show edit update destroy assign_user remove_user ]
+  before_action :set_user, only: %i[ assign_user remove_user ]
 
   # GET /events or /events.json
   def index
@@ -23,17 +24,15 @@ class EventsController < ApplicationController
 
   # POST /events/1/assign_user
   def assign_user
-    user = User.find_by_id(params[:user_id])
-    return redirect_to @event, notice: "User already exist" if @event.users.exists?(user.id)
-    @event.users << user
+    return redirect_to @event, alert: "User already exist" if @event.users.exists?(@user.id)
+    @event.users << @user
     respond_to do |format|
       format.js
     end
   end
 
   def remove_user
-    user = User.find_by_id(params[:user_id])
-    @event.users.delete(user)
+    @event.users.delete(@user)
     respond_to do |format|
       format.js
     end
@@ -79,7 +78,19 @@ class EventsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_event
-      @event = Event.find(params[:id])
+      begin
+        @event = Event.find(params[:id])
+      rescue ActiveRecord::RecordNotFound => e
+        return redirect_to events_path, alert: 'Record not found'
+      end
+    end
+
+    def set_user
+      begin
+        @user = User.find(params[:user_id])
+      rescue ActiveRecord::RecordNotFound => e
+        return redirect_to events_path, alert: 'Record not found'
+      end
     end
 
     # Only allow a list of trusted parameters through.
