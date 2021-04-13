@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: %i[ show edit update destroy assign_user ]
+  before_action :set_event, only: %i[ show edit update destroy assign_user remove_user ]
 
   # GET /events or /events.json
   def index
@@ -32,7 +32,8 @@ class EventsController < ApplicationController
   end
 
   def remove_user
-    EventsUser.where(event_id: @event.id, user_id: params[:user_id]).first.destroy
+    user = User.find_by_id(params[:user_id])
+    @event.users.delete(user)
   end
 
   # POST /events or /events.json
